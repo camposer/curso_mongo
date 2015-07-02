@@ -1,0 +1,60 @@
+1.- Busque todos los productos que estÃ¡n en el lugar con lugar.id=1
+db.cosas.find({ "lugar.id": 1 })
+
+2.- Busque todos los productos que estÃ¡n en el lugar con lugar.id=1 o lugar.id=2
+db.cosas.find({ $or: [ {"lugar.id": 1}, {"lugar.id": 2 } ] })
+db.cosas.find({ "lugar.id": { $in: [1, 2] }})
+
+3.- Busque todos los productos que tienen una cantidad > 40
+db.cosas.find({ "cantidad": { $gt: 40 }})
+
+4.- Utilizando el framework de agregaciÃ³n:
+	a.- Extraiga los documentos con lugar.id=1. El documento resultante deberÃ¡ tener Ãºnicamente el nombre e _id
+db.cosas.aggregate(
+{
+	$match: { "lugar.id": 1 }
+}, 
+{ 
+	$project: { nombre: 1 }
+}
+)
+
+	b.- Extraiga los documentos de tipo="tipo1" que tienen cantidad>40. El documento resultante deberÃ¡ tener Ãºnicamente el nombre e _id
+db.cosas.aggregate(
+{
+	$match: { "tipo": "tipo1", cantidad: { $gt: 40 } }
+}, 
+{ 
+	$project: { nombre: 1 }
+}
+)
+
+	c.- CuÃ¡ntos productos hay en el lugar con id=1?
+db.cosas.aggregate(
+{
+	$match: { "lugar.id": 1 }
+},
+{ 
+	$group: { _id: null, numero_productos: { $sum: 1 } }
+}
+)
+
+	d.- CuÃ¡ntos productos de tipo="tipo1" hay?
+db.cosas.aggregate(
+{
+	$match: { "tipo": "tipo1" }
+},
+{ 
+	$group: { _id: null, numero_productos: { $sum: 1 } }
+}
+)
+
+	e.- Extraiga los documentos de tipo="tipo1" y ordÃ©nelos de mayor a menor existencia (cantidad)
+db.cosas.aggregate(
+{
+	$match: { "tipo": "tipo1" }
+},
+{ 
+	$sort: { cantidad: -1 }
+}
+)
