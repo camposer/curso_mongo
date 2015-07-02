@@ -63,8 +63,6 @@ db.inventario.insert({
 				nombre: "Deposito 2"
 			}
 		]
-
-
 	})
 db.inventario.insert({ 
 		nombre: "nombre6",
