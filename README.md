@@ -3,4 +3,4 @@
 ##Diapositivas
 
 - Curso de Mongo
-	- https://github.com/camposer/curso_mongo.git
+	- http://es.slideshare.net/camposer/mongodb-50065006
