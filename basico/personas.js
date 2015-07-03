@@ -71,8 +71,9 @@ db.personas.aggregate([
 	},
 	{
 		$project: {
+			_id: 0,
 			nombre: "$_id.nombre",
-			numeros_ordenadores: "$numero_ordenadores"
+			numero_ordenadores: "$numero_ordenadores"
 		}
 	}
 ]);
@@ -84,11 +85,13 @@ db.personas.aggregate([
         },
 	{
 		$project: {
-			ordenadores: 1
+			_id: 0,
+			nombre: "$ordenadores.nombre",
+			precio: "$ordenadores.precio"
 		}	
 	},
 	{
-		$sort: { precio: -1 }
+		$sort: { "precio": -1 }
 	},
 	{
 		$limit: 1
