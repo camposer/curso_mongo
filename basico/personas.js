@@ -58,7 +58,42 @@ db.personas.find({
 	]
 })
 
+// Número de ordenadores por persona
+db.personas.aggregate([
+	{ 
+		$unwind: "$ordenadores"
+	},
+	{ 
+		$group: { 
+			_id: { id: "$_id", nombre: "$nombre"  },
+			numero_ordenadores: { $sum: 1  }
+		}
+	},
+	{
+		$project: {
+			nombre: "$_id.nombre",
+			numeros_ordenadores: "$numero_ordenadores"
+		}
+	}
+]);
 
+// El ordenador más costoso
+db.personas.aggregate([
+      	{
+                $unwind: "$ordenadores"
+        },
+	{
+		$project: {
+			ordenadores: 1
+		}	
+	},
+	{
+		$sort: { precio: -1 }
+	},
+	{
+		$limit: 1
+	}
+]);
 
 
 
